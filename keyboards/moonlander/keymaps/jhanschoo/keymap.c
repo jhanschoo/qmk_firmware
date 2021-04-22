@@ -21,6 +21,12 @@
 #include "print.h"
 #include "keymap_us_international.h"
 
+// following are not necessary but provided for intellisense
+#include "rgb_matrix_types.h"
+#include "moonlander.h"
+#include "../../config.h"
+#include "config.h"
+
 #define KC_MAC_UNDO LGUI(KC_Z)
 #define KC_MAC_CUT LGUI(KC_X)
 #define KC_MAC_COPY LGUI(KC_C)

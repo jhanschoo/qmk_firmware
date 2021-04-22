@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/tmk_core/common",
+                "${workspaceFolder}/quantum",
+                "${workspaceFolder}/quantum/audio",
+                "${workspaceFolder}/quantum/process_keycode",
+                "${workspaceFolder}/quantum/keymap_extras",
+                "${workspaceFolder}/keyboards/moonlander"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/arm-none-eabi-gcc",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "gcc-arm"
+        }
+    ],
+    "version": 4
+}
