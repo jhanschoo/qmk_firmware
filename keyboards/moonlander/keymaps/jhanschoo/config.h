@@ -21,3 +21,4 @@
 #define ORYX_CONFIGURATOR
 #define USB_SUSPEND_WAKEUP_DELAY 0
 #define FIRMWARE_VERSION u8"jhanschoo/latest"
+#define IGNORE_MOD_TAP_INTERRUPT
