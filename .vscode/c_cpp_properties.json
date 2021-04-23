@@ -3,14 +3,19 @@
         {
             "name": "Linux",
             "includePath": [
+                "${workspaceFolder}",
                 "${workspaceFolder}/tmk_core/common",
                 "${workspaceFolder}/quantum",
                 "${workspaceFolder}/quantum/audio",
                 "${workspaceFolder}/quantum/process_keycode",
                 "${workspaceFolder}/quantum/keymap_extras",
-                "${workspaceFolder}/keyboards/moonlander"
+                "${workspaceFolder}/keyboards/moonlander",
+                "${workspaceFolder}/keyboards/moonlander/keymaps/jhanschoo"
             ],
-            "defines": [],
+            "forcedInclude": [
+                "${workspaceFolder}/keyboards/moonlander/keymaps/jhanschoo/config.h"
+            ],
+            "defines": ["RGB_MATRIX_CUSTOM_USER"],
             "compilerPath": "/usr/bin/arm-none-eabi-gcc",
             "cStandard": "gnu17",
             "cppStandard": "gnu++14",

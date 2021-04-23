@@ -1,6 +1,10 @@
 {
   "python.pythonPath": "/home/jhanschoo/anaconda3/envs/jhanschoo/bin/python",
   "files.associations": {
-    "print.h": "c"
+    "print.h": "c",
+    "config.h": "c",
+    "*.inc": "c",
+    "moonlander.h": "c",
+    "rgb_matrix_types.h": "c"
   }
 }

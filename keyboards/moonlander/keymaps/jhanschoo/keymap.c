@@ -16,16 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #include QMK_KEYBOARD_H
 #include "version.h"
 #include "print.h"
 #include "keymap_us_international.h"
 
-// following are not necessary but provided for intellisense
-#include "rgb_matrix_types.h"
+// begin intellisense block
 #include "moonlander.h"
 #include "../../config.h"
-#include "config.h"
+#include "rgb_matrix_types.h"
+// end intellisense block
 
 #define KC_MAC_UNDO LGUI(KC_Z)
 #define KC_MAC_CUT LGUI(KC_X)
@@ -48,6 +49,7 @@ enum layers {
     BASE,  // default layer
     SYMB,  // symbols
     MDIA,  // media keys
+    GAME,  // gaming layout
 };
 
 enum custom_keycodes {
@@ -56,44 +58,65 @@ enum custom_keycodes {
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [BASE] = LAYOUT_moonlander(
-    KC_EQL,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_LEFT,
-            KC_RGHT,        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINS,       
-    KC_TAB,         LGUI_T(KC_Q),   LALT_T(KC_W),   LSFT_T(KC_E),   LCTL_T(KC_R),   KC_T,           TG(1),
-            TG(1),          KC_Y,           RCTL_T(KC_U),   RSFT_T(KC_I),   RALT_T(KC_O),   RGUI_T(KC_P),   LT(2,KC_BSLS),
-    KC_BSPC,        LGUI_T(KC_A),   LALT_T(KC_S),   LSFT_T(KC_D),   LCTL_T(KC_F),   KC_G,           KC_HYPR, 
-            KC_MEH,         KC_H,           RCTL_T(KC_J),   RSFT_T(KC_K),   RALT_T(KC_L),   RGUI_T(KC_SCLN),KC_QUOT,
-    KC_DEL,         LGUI_T(KC_Z),   LALT_T(KC_X),   LSFT_T(KC_C),   LCTL_T(KC_V),   KC_B,
-                            KC_N,           RCTL_T(KC_M),   RSFT_T(KC_COMM),RALT_T(KC_DOT), RGUI_T(KC_SLSH),KC_RSFT,      
-    LT(1,KC_GRV),   WEBUSB_PAIR,    LALT(KC_LSFT),  KC_LEFT,        KC_RGHT,        LALT_T(KC_APP),
-                            LCTL_T(KC_ESC), KC_UP,          KC_DOWN,        KC_LBRC,        KC_RBRC,        MO(1),          
-    KC_SPC,         KC_BSPC,        KC_LGUI,                                KC_LALT,        KC_TAB,         KC_ENT
+  [BASE] = LAYOUT_moonlander_split(
+    KC_EQL,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_APP,
+    KC_GRV,         RGUI_T(KC_Q),   RALT_T(KC_W),   RSFT_T(KC_E),   RCTL_T(KC_R),   KC_T,           KC_ESC,
+    KC_BSPC,        LGUI_T(KC_A),   LALT_T(KC_S),   LSFT_T(KC_D),   LCTL_T(KC_F),   KC_G,           KC_ENT,
+    KC_TAB,         KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
+    KC_CLCK,        KC_HYPR,        KC_LEFT,        KC_RGHT,        KC_SPC,                         TT(2),
+                                                                    TT(1),          KC_LCTL,        KC_LALT,
+
+    KC_INS,         KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINS,
+    KC_DEL,         KC_Y,           LCTL_T(KC_U),   LSFT_T(KC_I),   LALT_T(KC_O),   LGUI_T(KC_P),   KC_BSLS,
+    KC_SPC,         KC_H,           RCTL_T(KC_J),   RSFT_T(KC_K),   RALT_T(KC_L),   RGUI_T(KC_SCLN),KC_QUOT,
+                    KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,        KC_LBRC,
+    TT(4),                          KC_ENT,         KC_UP,          KC_DOWN,        KC_MEH,         KC_RBRC,
+    KC_LGUI,        KC_LSFT,        TT(3)
   ),
-  [SYMB] = LAYOUT_moonlander(
-    KC_ESC,         KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          _______,
-            _______,        KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,
-    _______,        KC_EXLM,        KC_AT,          KC_LCBR,        KC_RCBR,        KC_PIPE,        _______,
-            _______,        KC_UP,          KC_7,           KC_8,           KC_9,           KC_ASTR,        KC_F12,
-    _______,        KC_HASH,        KC_DLR,         KC_LPRN,        KC_RPRN,        KC_GRV,         _______,
-            _______,        KC_DOWN,        KC_4,           KC_5,           KC_6,           KC_PPLS,        _______, 
-    _______,        KC_PERC,        KC_CIRC,        KC_LBRC,        KC_RBRC,        KC_TILD,
-                            _______,        KC_1,           KC_2,           KC_3,           KC_BSLS,        _______, 
-    _______,        KC_COMM,        _______,        _______,        _______,        _______,
-                            _______,        _______,        KC_DOT,         KC_0,           KC_EQL,         _______, 
-    _______,        _______,        _______,                _______,        _______,        _______
+  [SYMB] = LAYOUT_moonlander_split(
+    KC_ESC,         KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_PSCR,
+    KC_HOME,        KC_EXLM,        KC_AT,          KC_LCBR,        KC_RCBR,        _______,        KC_SLCK,
+    KC_PGUP,        KC_HASH,        KC_DLR,         KC_LPRN,        KC_RPRN,        _______,        KC_PAUS,
+    KC_PGDN,        KC_PERC,        KC_CIRC,        KC_LBRC,        KC_RBRC,        _______,
+    KC_END,         KC_AMPR,        KC_ASTR,        KC_LABK,        KC_RABK,                        _______,
+                                                                    _______,        _______,        _______,
+
+    KC_LSFT,        KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,
+    KC_LCTL,        KC_NLCK,        KC_P7,          KC_P8,          KC_P9,          KC_PSLS,        KC_F12,
+    KC_LGUI,        KC_LALT,        KC_P4,          KC_P5,          KC_P6,          KC_PAST,        _______,
+                    _______,        KC_P1,          KC_P2,          KC_P3,          KC_PMNS,        _______,
+    _______,                        KC_P0,          KC_PDOT,        KC_PENT,        KC_PPLS,        _______,
+    _______,        _______,        _______
   ),
-  [MDIA] = LAYOUT_moonlander(
-    AU_TOG,         _______,        _______,        _______,        _______,        _______,        _______,
-            _______,        _______,        _______,        _______,        _______,        _______,        RESET,          
+  [MDIA] = LAYOUT_moonlander_split(
+    AU_TOG,         _______,        _______,        _______,        _______,        _______,        WEBUSB_PAIR,
     MU_TOG,         _______,        _______,        KC_MS_U,        _______,        _______,        _______,
-            _______,        _______,        _______,        _______,        _______,        _______,        _______, 
     MU_MOD,         _______,        KC_MS_L,        KC_MS_D,        KC_MS_R,        _______,        _______,
-            _______,        _______,        _______,        _______,        _______,        _______,        KC_MPLY,
     _______,        _______,        _______,        _______,        _______,        _______,
-                            _______,        _______,        KC_MPRV,        KC_MNXT,        _______,        _______, 
-    _______,        _______,        _______,        KC_BTN1,        KC_BTN2,        _______,
-                            _______,       KC_VOLU,         KC_VOLD,        KC_MUTE,        _______,        _______, 
-    _______,        _______,        _______,                _______,        _______,        KC_WBAK
+    _______,        _______,        _______,        KC_BTN1,        KC_BTN2,                        _______,
+                                                                    _______,        _______,        _______,
+
+    DYN_MACRO_PLAY1,DYN_REC_STOP,   DYN_REC_START1, _______,        _______,        _______,        RESET,
+    DYN_MACRO_PLAY2,DYN_REC_STOP,   DYN_REC_START2, _______,        _______,        _______,        _______,
+    KC_MPLY,        KC_MSTP,        KC_MPRV,        KC_MNXT,        _______,        _______,        _______,
+                    KC_MUTE,        KC_VOLD,        KC_VOLU,        _______,        _______,        _______,
+    _______,                        KC_BRID,        KC_BRIU,        _______,        _______,        _______,
+    _______,        _______,        _______
+  ),
+  [GAME] = LAYOUT_moonlander_split(
+    KC_EQL,         KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_B,
+    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_V,
+    KC_LSFT,        KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_5,
+    KC_LCTL,        KC_Z,           KC_X,           KC_C,           KC_3,           KC_4,
+    KC_GRV,         KC_LGUI,        KC_LALT,        KC_1,           KC_2,                           KC_BSPC, 
+                                                                    _______,        _______,        _______,
+
+    _______,        _______,        _______,        _______,        _______,        _______,        _______,
+    _______,        _______,        KC_U,           KC_I,           KC_O,           KC_P,           _______,
+    _______,        _______,        KC_J,           KC_K,           KC_L,           KC_SCLN,        _______,
+                    _______,        _______,        _______,        _______,        _______,        _______,
+    _______,                        _______,        _______,        _______,        _______,        _______,
+    _______,        _______,        _______
   ),
 };
 
@@ -105,9 +128,14 @@ void keyboard_post_init_user(void) {
 }
 
 const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
-    [BASE] = {
-      {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127},
-    },
+    [BASE] = { {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,255}, {0,0,127}, {0,0,127}, {0,0,255} },
+
+    [SYMB] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {86,255,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {86,255,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {86,255,255}, {215,255,255}, {43,255,255}, {129,255,255}, {21,255,255}, {86,255,255}, {215,255,255}, {43,255,255}, {129,255,255}, {21,255,255}, {86,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {86,255,255}, {86,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {86,255,255}, {0,0,127}, {0,0,127}, {0,0,127}, {0,0,127}, {86,255,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {86,255,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {86,255,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {86,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
+
+    [MDIA] = { {0,0,255}, {0,0,255}, {0,0,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,255}, {0,0,255}, {0,0,0}, {0,0,255}, {0,0,0}, {0,0,0}, {0,0,255}, {0,0,0}, {0,0,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {21,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,255}, {0,0,255}, {0,0,255}, {0,255,255}, {0,255,255}, {0,0,127}, {0,0,127}, {0,0,127}, {43,255,255}, {43,255,255}, {43,255,255}, {0,255,255}, {86,255,255}, {86,255,255}, {86,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
+
+    [GAME] = { {0,128,127}, {0,128,127}, {172,255,255}, {172,255,255}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {172,255,255}, {0,128,127}, {0,128,127}, {0,0,255}, {0,128,127}, {172,255,255}, {0,128,127}, {0,0,255}, {0,0,255}, {0,128,127}, {14,255,255}, {0,128,127}, {0,128,127}, {0,0,255}, {14,255,255}, {14,255,255}, {0,128,127}, {0,128,127}, {0,128,127}, {14,255,255}, {0,128,127}, {0,128,127}, {14,255,255}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127}, {0,128,127} },
+
 };
 
 void set_layer_color(int layer) {
@@ -133,39 +161,18 @@ void rgb_matrix_indicators_user(void) {
     case BASE:
       set_layer_color(BASE);
       break;
+    case SYMB:
+      set_layer_color(SYMB);
+      break;
+    case MDIA:
+      set_layer_color(MDIA);
+      break;
+    case GAME:
+      set_layer_color(GAME);
+      break;
    default:
      if (rgb_matrix_get_flags() == LED_FLAG_NONE)
        rgb_matrix_set_color_all(0, 0, 0);
      break;
   }
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  // printf("%d %d %d %d %d %d %d\n", rgb_matrix_is_enabled(), rgb_matrix_get_mode(), rgb_matrix_get_hue(), rgb_matrix_get_sat(), rgb_matrix_get_val(), rgb_matrix_get_speed(), rgb_matrix_get_suspend_state());
-  // switch (keycode) {
-  //   case RGB_SLD:
-  //     if (record->event.pressed) {
-  //       rgblight_mode(1);
-  //     }
-  //     return false;
-  //   case HSV_0_255_255:
-  //     if (record->event.pressed) {
-  //       rgblight_mode(1);
-  //       rgblight_sethsv(0,255,255);
-  //     }
-  //     return false;
-  //   case HSV_86_255_128:
-  //     if (record->event.pressed) {
-  //       rgblight_mode(1);
-  //       rgblight_sethsv(86,255,128);
-  //     }
-  //     return false;
-  //   case HSV_172_255_255:
-  //     if (record->event.pressed) {
-  //       rgblight_mode(1);
-  //       rgblight_sethsv(172,255,255);
-  //     }
-  //     return false;
-  // }
-  return true;
 }
