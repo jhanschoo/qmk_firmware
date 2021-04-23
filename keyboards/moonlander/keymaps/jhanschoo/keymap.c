@@ -63,15 +63,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV,         RGUI_T(KC_Q),   RALT_T(KC_W),   RSFT_T(KC_E),   RCTL_T(KC_R),   KC_T,           KC_ESC,
     KC_BSPC,        LGUI_T(KC_A),   LALT_T(KC_S),   LSFT_T(KC_D),   LCTL_T(KC_F),   KC_G,           KC_ENT,
     KC_TAB,         KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,
-    KC_CLCK,        KC_HYPR,        KC_LEFT,        KC_RGHT,        KC_SPC,                         TT(2),
-                                                                    TT(1),          KC_LCTL,        KC_LALT,
+    KC_CLCK,        KC_HYPR,        KC_LEFT,        KC_RGHT,        KC_SPC,                         TT(MDIA),
+                                                                    TT(SYMB),       KC_LCTL,        KC_LALT,
 
     KC_INS,         KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINS,
     KC_DEL,         KC_Y,           LCTL_T(KC_U),   LSFT_T(KC_I),   LALT_T(KC_O),   LGUI_T(KC_P),   KC_BSLS,
     KC_SPC,         KC_H,           RCTL_T(KC_J),   RSFT_T(KC_K),   RALT_T(KC_L),   RGUI_T(KC_SCLN),KC_QUOT,
                     KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,        KC_LBRC,
-    TT(4),                          KC_ENT,         KC_UP,          KC_DOWN,        KC_MEH,         KC_RBRC,
-    KC_LGUI,        KC_LSFT,        TT(3)
+    TO(BASE),                       KC_ENT,         KC_UP,          KC_DOWN,        KC_MEH,         KC_RBRC,
+    KC_LGUI,        KC_LSFT,        TT(MDIA)
   ),
   [SYMB] = LAYOUT_moonlander_split(
     KC_ESC,         KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_PSCR,
