@@ -5,6 +5,10 @@
     "config.h": "c",
     "*.inc": "c",
     "moonlander.h": "c",
-    "rgb_matrix_types.h": "c"
+    "rgb_matrix_types.h": "c",
+    "config_common.h": "c",
+    "song_list.h": "c",
+    "musical_notes.h": "c",
+    "hal.h": "c"
   }
 }
