@@ -6,18 +6,6 @@ RGB_MATRIX_EFFECT(JHANSCHOO)
 
 #    ifdef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 
-// static HSV JHANSCHOO_math(HSV hsv, int16_t dx, int16_t dy, uint8_t dist, uint16_t tick) {
-//     uint16_t effect = tick + dist;
-//     dx              = dx < 0 ? dx * -1 : dx;
-//     dy              = dy < 0 ? dy * -1 : dy;
-//     dx              = dx * 16 > 255 ? 255 : dx * 16;
-//     dy              = dy * 16 > 255 ? 255 : dy * 16;
-//     effect += dx > dy ? dy : dx;
-//     if (effect > 255) effect = 255;
-//     hsv.v = qadd8(hsv.v, 255 - effect);
-//     return hsv;
-// }
-
 #        ifndef DISABLE_RGB_MATRIX_JHANSCHOO
 
 #include "ledmap.inc"
