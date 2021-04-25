@@ -121,7 +121,7 @@ extern rgb_config_t rgb_matrix_config;
 void keyboard_post_init_user(void) {
   rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_JHANSCHOO);
   rgb_matrix_set_speed_noeeprom(60);
-  rgb_matrix_sethsv_noeeprom(0, 0, 255);
+  rgb_matrix_sethsv_noeeprom(14, 255, 255);
 }
 
 // void set_layer_color(int layer) {
