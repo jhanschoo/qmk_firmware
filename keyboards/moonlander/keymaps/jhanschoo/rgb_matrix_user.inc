@@ -33,8 +33,8 @@ bool JHANSCHOO(effect_params_t* params) {
             uint16_t ady = dy < 0 ? -dy : dy;
             int16_t dist = sqrt16(adx * adx + ady * ady);
 
-            // at the fastest speed, maximum tick is close to 65536 before raw tick is forgotten
-            // at the speed=1, maximum tick is close to 256 before raw tick is forgotten
+            // at the fastest speed (speed=255), maximum tick is close to 65536 before raw tick is forgotten
+            // at speed=1, maximum tick is close to 256 before raw tick is forgotten
             // hence we choose to saturate at UINT8_MAX; all animations related to the current
             // keypress should be completed by then
             // of course, at speed=0, maximum tick is 0 before raw tick is forgotten.
@@ -55,7 +55,8 @@ bool JHANSCHOO(effect_params_t* params) {
             // ground-zero-key must have ended animation
 
             // current wavefront choice:
-            // transparency = min(255, 4 * |2 * t - d|)
+            // transparency = min(255, 4 * |2 * tick - dist|)
+            // you can plot on desmos to see how this looks like
 
             uint16_t transparency = 2 * tick; // [0, 512)
             if (dist > transparency) {
@@ -67,9 +68,8 @@ bool JHANSCHOO(effect_params_t* params) {
             uint8_t opacity = transparency > UINT8_MAX ? 0 : (UINT8_MAX - transparency);
 
             // radial surface wave amplitude is proportional to 1/sqrt(radius)
-            // we scale by 1/sqrt(radius / 32 + 1), and at distance 128 we have a bit less than roughly 1/3
-            // equivalent to scaling by 256 * 4 / sqrt(radius/2 + 16) / 256
-            // we maintain same amplitude in the cross pattern
+            // we scale by 1/sqrt(radius / 32 + 1), and at distance 256 we have a bit less than roughly 1/3
+            // equivalent to scaling by 256 * 4 / sqrt(radius/2 + 16) / 256, which we do instead to mitigate precision loss
             opacity = scale8(opacity, scale16by8(1023, sqrt16(dist / 2 + 16)));
             sum_opacity = qadd8(sum_opacity, opacity);
         }
