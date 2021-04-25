@@ -66,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_SPC,         KC_H,           RCTL_T(KC_J),   RSFT_T(KC_K),   RALT_T(KC_L),   RGUI_T(KC_SCLN),KC_QUOT,
                     KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,        KC_LBRC,
     TO(BASE),                       KC_ENT,         KC_UP,          KC_DOWN,        KC_MEH,         KC_RBRC,
-    KC_LGUI,        KC_LSFT,        TT(MDIA)
+    KC_LGUI,        KC_LSFT,        TT(GAME)
   ),
   [SYMB] = LAYOUT_moonlander_split(
     KC_ESC,         KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_PSCR,
