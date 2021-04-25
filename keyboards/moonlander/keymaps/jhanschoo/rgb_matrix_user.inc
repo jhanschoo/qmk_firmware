@@ -42,6 +42,12 @@ bool JHANSCHOO(effect_params_t* params) {
             if (tick > UINT8_MAX) {
                 tick = UINT8_MAX;
             }
+            if (dx == 0 || dy == 0) {
+                // use a different, instantaneous pattern for the cross, 
+                // which helps with feedback for gaming
+                sum_opacity = qadd8(sum_opacity, UINT8_MAX - tick);
+                continue;
+            }
 
             // wavefront design: regardless of wave shape, last key
             // distance 256 away must start animation before, close to 
@@ -64,9 +70,7 @@ bool JHANSCHOO(effect_params_t* params) {
             // we scale by 1/sqrt(radius / 32 + 1), and at distance 128 we have a bit less than roughly 1/3
             // equivalent to scaling by 256 * 4 / sqrt(radius/2 + 16) / 256
             // we maintain same amplitude in the cross pattern
-            if (adx != 0 && ady != 0) {
-                opacity = scale8(opacity, (uint8_t) scale16by8(1023, sqrt16(dist / 2 + 16)));
-            }
+            opacity = scale8(opacity, scale16by8(1023, sqrt16(dist / 2 + 16)));
             sum_opacity = qadd8(sum_opacity, opacity);
         }
         rgb.r = blend8(rgb.r, effect_rgb.r, sum_opacity);
