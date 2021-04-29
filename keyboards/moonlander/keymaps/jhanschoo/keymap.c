@@ -99,11 +99,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,        _______,        _______
   ),
   [GAME] = LAYOUT_moonlander_split(
-    KC_EQL,         KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_B,
-    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_V,
+    KC_EQL,         KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_GRV,
+    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_B,
     KC_LSFT,        KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_5,
-    KC_LCTL,        KC_Z,           KC_X,           KC_C,           KC_3,           KC_4,
-    KC_GRV,         KC_LGUI,        KC_LALT,        KC_1,           KC_2,                           KC_BSPC, 
+    KC_LCTL,        KC_Z,           KC_X,           KC_C,           KC_V,           KC_4,
+    KC_LGUI,        KC_LALT,        KC_1,           KC_2,           KC_3,                           KC_BSPC, 
                                                                     _______,        _______,        _______,
 
     _______,        _______,        _______,        _______,        _______,        _______,        _______,
