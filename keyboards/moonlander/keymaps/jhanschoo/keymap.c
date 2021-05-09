@@ -104,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LSFT,        KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_5,
     KC_LCTL,        KC_Z,           KC_X,           KC_C,           KC_V,           KC_4,
     KC_LGUI,        KC_LALT,        KC_1,           KC_2,           KC_3,                           KC_BSPC, 
-                                                                    _______,        _______,        _______,
+                                                                    KC_SPC,         _______,        _______,
 
     _______,        _______,        _______,        _______,        _______,        _______,        _______,
     _______,        _______,        KC_U,           KC_I,           KC_O,           KC_P,           _______,
@@ -121,7 +121,7 @@ extern rgb_config_t rgb_matrix_config;
 void keyboard_post_init_user(void) {
   rgb_matrix_mode_noeeprom(RGB_MATRIX_CUSTOM_JHANSCHOO);
   rgb_matrix_set_speed_noeeprom(60);
-  rgb_matrix_sethsv_noeeprom(14, 255, 255);
+  rgb_matrix_sethsv_noeeprom(0, 0, 255);
 }
 
 // void set_layer_color(int layer) {
