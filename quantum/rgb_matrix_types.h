@@ -49,6 +49,13 @@ typedef struct PACKED {
 } last_hit_t;
 #endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
 
+#ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
+typedef struct PACKED {
+    uint16_t tick;
+    bool pressed;
+} rgb_reactive_framebuffer_t;
+#endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
+
 typedef enum rgb_task_states { STARTING, RENDERING, FLUSHING, SYNCING } rgb_task_states;
 
 typedef uint8_t led_flags_t;

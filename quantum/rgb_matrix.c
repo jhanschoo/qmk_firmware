@@ -126,6 +126,12 @@ uint8_t g_rgb_frame_buffer[MATRIX_ROWS][MATRIX_COLS] = {{0}};
 #ifdef RGB_MATRIX_KEYREACTIVE_ENABLED
 last_hit_t g_last_hit_tracker;
 #endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
+#ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
+rgb_reactive_framebuffer_t g_rgb_reactive_framebuffer[MATRIX_ROWS][MATRIX_COLS] = {{{
+    .tick = {{ UINT16_MAX }},
+    .pressed = {{ false }},
+}}};
+#endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 
 // internals
 static bool            suspend_state     = false;
@@ -243,6 +249,13 @@ void process_rgb_matrix(uint8_t row, uint8_t col, bool pressed) {
     }
 #endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
 
+#if defined(RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED)
+    uint8_t row   = record->event.key.row;
+    uint8_t col   = record->event.key.col;
+    g_rgb_reactive_framebuffer[row][col].pressed = record->event.pressed;
+    g_rgb_reactive_framebuffer[row][col].tick = 0;
+#endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
+
 #if defined(RGB_MATRIX_FRAMEBUFFER_EFFECTS) && !defined(DISABLE_RGB_MATRIX_TYPING_HEATMAP)
     if (rgb_matrix_config.mode == RGB_MATRIX_TYPING_HEATMAP) {
         process_rgb_matrix_typing_heatmap(row, col);
@@ -284,7 +297,7 @@ static bool rgb_matrix_none(effect_params_t *params) {
 }
 
 static void rgb_task_timers(void) {
-#if defined(RGB_MATRIX_KEYREACTIVE_ENABLED) || RGB_DISABLE_TIMEOUT > 0
+#if defined(RGB_MATRIX_KEYREACTIVE_ENABLED) || defined(RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED) || RGB_DISABLE_TIMEOUT > 0
     uint32_t deltaTime = sync_timer_elapsed32(rgb_timer_buffer);
 #endif  // defined(RGB_MATRIX_KEYREACTIVE_ENABLED) || RGB_DISABLE_TIMEOUT > 0
     rgb_timer_buffer = sync_timer_read32();
@@ -311,6 +324,18 @@ static void rgb_task_timers(void) {
         last_hit_buffer.tick[i] += deltaTime;
     }
 #endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
+
+#ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
+    for (uint8_t r = 0; r < MATRIX_ROWS; ++r) {
+        for (uint8_t c = 0; c < MATRIX_COLS; ++c) {
+            if (UINT16_MAX - deltaTime < g_rgb_reactive_framebuffer[r][c].tick) {
+                g_rgb_reactive_framebuffer[r][c].tick = UINT16_MAX;
+            } else {
+                g_rgb_reactive_framebuffer[r][c].tick += deltaTime;
+            }
+        }
+    }
+#endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 }
 
 static void rgb_task_sync(void) {
