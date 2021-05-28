@@ -127,10 +127,10 @@ uint8_t g_rgb_frame_buffer[MATRIX_ROWS][MATRIX_COLS] = {{0}};
 last_hit_t g_last_hit_tracker;
 #endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
 #ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
-rgb_reactive_framebuffer_t g_rgb_reactive_framebuffer[MATRIX_ROWS][MATRIX_COLS] = {{{
-    .tick = {{ UINT16_MAX }},
-    .pressed = {{ false }},
-}}};
+rgb_reactive_framebuffer_t g_rgb_reactive_framebuffer[DRIVER_LED_TOTAL] = {{
+    .pressed_tick = UINT16_MAX,
+    .released_tick = UINT16_MAX,
+}};
 #endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 
 // internals
@@ -250,10 +250,14 @@ void process_rgb_matrix(uint8_t row, uint8_t col, bool pressed) {
 #endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
 
 #if defined(RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED)
-    uint8_t row   = record->event.key.row;
-    uint8_t col   = record->event.key.col;
-    g_rgb_reactive_framebuffer[row][col].pressed = record->event.pressed;
-    g_rgb_reactive_framebuffer[row][col].tick = 0;
+    uint8_t led_i = g_led_config.matrix_co[row][col];
+    if (led_i < DRIVER_LED_TOTAL) {
+        if (pressed) {
+            g_rgb_reactive_framebuffer[led_i].pressed_tick = 0;
+        } else {
+            g_rgb_reactive_framebuffer[led_i].released_tick = 0;
+        }
+    }
 #endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 
 #if defined(RGB_MATRIX_FRAMEBUFFER_EFFECTS) && !defined(DISABLE_RGB_MATRIX_TYPING_HEATMAP)
@@ -326,13 +330,16 @@ static void rgb_task_timers(void) {
 #endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
 
 #ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
-    for (uint8_t r = 0; r < MATRIX_ROWS; ++r) {
-        for (uint8_t c = 0; c < MATRIX_COLS; ++c) {
-            if (UINT16_MAX - deltaTime < g_rgb_reactive_framebuffer[r][c].tick) {
-                g_rgb_reactive_framebuffer[r][c].tick = UINT16_MAX;
-            } else {
-                g_rgb_reactive_framebuffer[r][c].tick += deltaTime;
-            }
+    for (uint8_t i = 0; i < DRIVER_LED_TOTAL; ++i) {
+        if (UINT16_MAX - deltaTime < g_rgb_reactive_framebuffer[i].pressed_tick) {
+            g_rgb_reactive_framebuffer[i].pressed_tick = UINT16_MAX;
+        } else {
+            g_rgb_reactive_framebuffer[i].pressed_tick += deltaTime;
+        }
+        if (UINT16_MAX - deltaTime < g_rgb_reactive_framebuffer[i].released_tick) {
+            g_rgb_reactive_framebuffer[i].released_tick = UINT16_MAX;
+        } else {
+            g_rgb_reactive_framebuffer[i].released_tick += deltaTime;
         }
     }
 #endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED

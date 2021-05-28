@@ -51,8 +51,8 @@ typedef struct PACKED {
 
 #ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 typedef struct PACKED {
-    uint16_t tick;
-    bool pressed;
+    uint16_t pressed_tick;
+    uint16_t released_tick;
 } rgb_reactive_framebuffer_t;
 #endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 

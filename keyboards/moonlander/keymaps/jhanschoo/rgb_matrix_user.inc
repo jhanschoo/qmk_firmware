@@ -1,4 +1,4 @@
-#ifdef RGB_MATRIX_KEYREACTIVE_ENABLED
+#ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 
 #    ifndef DISABLE_RGB_MATRIX_JHANSCHOO
 RGB_MATRIX_EFFECT(JHANSCHOO)
@@ -26,9 +26,9 @@ bool JHANSCHOO(effect_params_t* params) {
         RGB rgb = rgb_matrix_hsv_to_rgb(layer_hsv);
 
         uint8_t sum_opacity = 0;
-        for (uint8_t j = 0; j < g_last_hit_tracker.count; ++j) {
-            int16_t dx = (g_led_config.point[i].x - g_last_hit_tracker.x[j]);
-            int16_t dy = (g_led_config.point[i].y - g_last_hit_tracker.y[j]);
+        for (uint8_t j = 0; j < led_max; ++j) {
+            int16_t dx = (g_led_config.point[i].x - g_led_config.point[j].x);
+            int16_t dy = (g_led_config.point[i].y - g_led_config.point[j].y);
             uint16_t adx = dx < 0 ? -dx : dx;
             uint16_t ady = dy < 0 ? -dy : dy;
             int16_t dist = sqrt16(adx * adx + ady * ady);
@@ -38,7 +38,10 @@ bool JHANSCHOO(effect_params_t* params) {
             // hence we choose to saturate at UINT8_MAX; all animations related to the current
             // keypress should be completed by then
             // of course, at speed=0, maximum tick is 0 before raw tick is forgotten.
-            uint16_t tick = scale16by8(g_last_hit_tracker.tick[j], rgb_matrix_config.speed);
+            uint16_t tick = scale16by8(g_rgb_reactive_framebuffer[j].released_tick, rgb_matrix_config.speed);
+            if (g_rgb_reactive_framebuffer[j].pressed_tick < g_rgb_reactive_framebuffer[j].released_tick) {
+                tick = 0;
+            }
             if (tick > UINT8_MAX) {
                 tick = UINT8_MAX;
             }
@@ -85,4 +88,4 @@ bool JHANSCHOO(effect_params_t* params) {
 #        endif
 
 #    endif  // RGB_MATRIX_CUSTOM_EFFECT_IMPLS
-#endif      // RGB_MATRIX_KEYREACTIVE_ENABLED
+#endif      // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
