@@ -26,12 +26,15 @@ bool JHANSCHOO(effect_params_t* params) {
         RGB rgb = rgb_matrix_hsv_to_rgb(layer_hsv);
 
         uint8_t sum_opacity = 0;
-        for (uint8_t j = 0; j < led_max; ++j) {
-            int16_t dx = (g_led_config.point[i].x - g_led_config.point[j].x);
-            int16_t dy = (g_led_config.point[i].y - g_led_config.point[j].y);
-            uint16_t adx = dx < 0 ? -dx : dx;
-            uint16_t ady = dy < 0 ? -dy : dy;
-            int16_t dist = sqrt16(adx * adx + ady * ady);
+        for (uint8_t j = 0; j < DRIVER_LED_TOTAL; ++j) {
+            uint8_t ix = g_led_config.point[i].x;
+            uint8_t iy = g_led_config.point[i].y;
+            uint8_t jx = g_led_config.point[j].x;
+            uint8_t jy = g_led_config.point[j].y;
+            uint8_t adx = ix < jx ? sub8(jx, ix) : sub8(ix, jx);
+            uint8_t ady = iy < jy ? sub8(jy, iy) : sub8(iy, jy);
+            // int16_t dist = sqrt16(dx * dx + dy * dy);
+            uint8_t dist = qadd8(adx, ady);
 
             // at the fastest speed (speed=255), maximum tick is close to 65536 before raw tick is forgotten
             // at speed=1, maximum tick is close to 256 before raw tick is forgotten
@@ -45,7 +48,7 @@ bool JHANSCHOO(effect_params_t* params) {
             if (tick > UINT8_MAX) {
                 tick = UINT8_MAX;
             }
-            if (dx == 0 || dy == 0) {
+            if (adx == 0 || ady == 0) {
                 // use a different, instantaneous pattern for the cross, 
                 // which helps with feedback for gaming
                 sum_opacity = qadd8(sum_opacity, UINT8_MAX - tick);
