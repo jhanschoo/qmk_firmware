@@ -9,6 +9,7 @@
     "config_common.h": "c",
     "song_list.h": "c",
     "musical_notes.h": "c",
-    "hal.h": "c"
+    "hal.h": "c",
+    "layers_enum.h": "c"
   }
 }
