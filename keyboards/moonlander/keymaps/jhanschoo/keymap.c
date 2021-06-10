@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_DEL,         KC_Y,           LCTL_T(KC_U),   LSFT_T(KC_I),   LALT_T(KC_O),   LGUI_T(KC_P),   KC_BSLS,
     KC_SPC,         KC_H,           RCTL_T(KC_J),   RSFT_T(KC_K),   RALT_T(KC_L),   RGUI_T(KC_SCLN),KC_QUOT,
                     KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,        KC_LBRC,
-    TO(BASE),                       KC_ENT,         KC_UP,          KC_DOWN,        KC_MEH,         KC_RBRC,
+    TO(BASE),                       KC_ENT,         KC_DOWN,        KC_UP,          KC_MEH,         KC_RBRC,
     KC_LGUI,        KC_LSFT,        TO(NORM)
   ),
   [NORM] = LAYOUT_moonlander_split(
@@ -80,8 +80,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,        _______,        KC_U,           KC_I,           KC_O,           KC_P,           _______,
     _______,        _______,        KC_J,           KC_K,           KC_L,           KC_SCLN,        _______,
                     _______,        _______,        _______,        _______,        _______,        _______,
-    _______,                        _______,        KC_HOME,        KC_END,         KC_PSCR,        _______,
-    KC_PGUP,        KC_PGDOWN,      TO(GW2)
+    _______,                        _______,        KC_END,         KC_HOME,        KC_PSCR,        _______,
+    KC_PGDN,        KC_PGUP,        TO(GW2)
   ),
   [GW2] = LAYOUT_moonlander_split(
     KC_EQL,         KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_GRV,
