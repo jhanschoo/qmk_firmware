@@ -1,5 +1,5 @@
 {
-  "python.pythonPath": "/home/jhanschoo/anaconda3/envs/qmk/bin/python",
+  "python.pythonPath": "/home/jhanschoo/miniconda3/envs/qmk/bin/python",
   "files.associations": {
     "print.h": "c",
     "config.h": "c",
