@@ -261,6 +261,9 @@ extern led_config_t g_led_config;
 #ifdef RGB_MATRIX_KEYREACTIVE_ENABLED
 extern last_hit_t g_last_hit_tracker;
 #endif
+#ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
+extern rgb_reactive_framebuffer_t g_rgb_reactive_framebuffer[RGB_MATRIX_LED_COUNT];
+#endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 #ifdef RGB_MATRIX_FRAMEBUFFER_EFFECTS
 extern uint8_t g_rgb_frame_buffer[MATRIX_ROWS][MATRIX_COLS];
 #endif

@@ -113,7 +113,13 @@ uint8_t g_rgb_frame_buffer[MATRIX_ROWS][MATRIX_COLS] = {{0}};
 #endif // RGB_MATRIX_FRAMEBUFFER_EFFECTS
 #ifdef RGB_MATRIX_KEYREACTIVE_ENABLED
 last_hit_t g_last_hit_tracker;
-#endif // RGB_MATRIX_KEYREACTIVE_ENABLED
+#endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
+#ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
+rgb_reactive_framebuffer_t g_rgb_reactive_framebuffer[RGB_MATRIX_LED_COUNT] = {{
+    .pressed_tick = UINT16_MAX,
+    .released_tick = UINT16_MAX,
+}};
+#endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 
 // internals
 static bool            suspend_state     = false;
@@ -243,6 +249,17 @@ void process_rgb_matrix(uint8_t row, uint8_t col, bool pressed) {
     }
 #endif // RGB_MATRIX_KEYREACTIVE_ENABLED
 
+#if defined(RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED)
+    uint8_t led_i = g_led_config.matrix_co[row][col];
+    if (led_i < RGB_MATRIX_LED_COUNT) {
+        if (pressed) {
+            g_rgb_reactive_framebuffer[led_i].pressed_tick = 0;
+        } else {
+            g_rgb_reactive_framebuffer[led_i].released_tick = 0;
+        }
+    }
+#endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
+
 #if defined(RGB_MATRIX_FRAMEBUFFER_EFFECTS) && defined(ENABLE_RGB_MATRIX_TYPING_HEATMAP)
 #    if defined(RGB_MATRIX_KEYRELEASES)
     if (!pressed)
@@ -291,7 +308,7 @@ static bool rgb_matrix_none(effect_params_t *params) {
 }
 
 static void rgb_task_timers(void) {
-#if defined(RGB_MATRIX_KEYREACTIVE_ENABLED) || RGB_MATRIX_TIMEOUT > 0
+#if defined(RGB_MATRIX_KEYREACTIVE_ENABLED) || defined(RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED) || RGB_DISABLE_TIMEOUT > 0
     uint32_t deltaTime = sync_timer_elapsed32(rgb_timer_buffer);
 #endif // defined(RGB_MATRIX_KEYREACTIVE_ENABLED) || RGB_MATRIX_TIMEOUT > 0
     rgb_timer_buffer = sync_timer_read32();
@@ -313,7 +330,22 @@ static void rgb_task_timers(void) {
         }
         last_hit_buffer.tick[i] += deltaTime;
     }
-#endif // RGB_MATRIX_KEYREACTIVE_ENABLED
+#endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
+
+#ifdef RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
+    for (uint8_t i = 0; i < RGB_MATRIX_LED_COUNT; ++i) {
+        if (UINT16_MAX - deltaTime < g_rgb_reactive_framebuffer[i].pressed_tick) {
+            g_rgb_reactive_framebuffer[i].pressed_tick = UINT16_MAX;
+        } else {
+            g_rgb_reactive_framebuffer[i].pressed_tick += deltaTime;
+        }
+        if (UINT16_MAX - deltaTime < g_rgb_reactive_framebuffer[i].released_tick) {
+            g_rgb_reactive_framebuffer[i].released_tick = UINT16_MAX;
+        } else {
+            g_rgb_reactive_framebuffer[i].released_tick += deltaTime;
+        }
+    }
+#endif  // RGB_MATRIX_KEYREACTIVE_FRAMEBUFFER_ENABLED
 }
 
 static void rgb_task_sync(void) {
