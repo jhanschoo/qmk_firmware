@@ -15,14 +15,7 @@
  */
 
 #include "quantum.h"
-
-// The first four layers gets a name for readability, which is then used in the OLED below.
-enum layers {
-  _DEFAULT,
-  _LOWER,
-  _RAISE,
-  _ADJUST
-};
+#include "sofle_v2.h"
 
 #ifdef OLED_ENABLE
 // NOTE: Most of the OLED code was originally written by Soundmonster for the Corne,
@@ -240,8 +233,8 @@ bool oled_task_kb(void) {
         render_space();
         render_layer_state();
         render_space();
-        render_mod_status_gui_alt(get_mods()|get_oneshot_mods());
-        render_mod_status_ctrl_shift(get_mods()|get_oneshot_mods());
+        render_mod_status_gui_alt(get_mods()|get_weak_mods()|get_oneshot_mods());
+        render_mod_status_ctrl_shift(get_mods()|get_weak_mods()|get_oneshot_mods());
         render_kb_LED_state();
     } else {
         // clang-format off
@@ -286,7 +279,7 @@ bool oled_task_kb(void) {
 }
 #endif
 
-#ifdef ENCODER_ENABLE
+#if defined(ENCODER_ENABLE) && !defined(ENCODER_MAP_ENABLE)
 bool encoder_update_kb(uint8_t index, bool clockwise) {
     if (!encoder_update_user(index, clockwise)) {
         return false;

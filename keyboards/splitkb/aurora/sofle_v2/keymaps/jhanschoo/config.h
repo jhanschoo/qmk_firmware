@@ -16,7 +16,27 @@
 
 #pragma once
 
-#define OLED_DISPLAY_128X32
-#define SPLIT_OLED_ENABLE
+// #define QUICK_TAP_TERM 0
+// #define PERMISSIVE_HOLD
 
-#define RGB_MATRIX_LED_COUNT 70
+#define RGB_DISABLE_WHEN_USB_SUSPENDED
+#define RGB_MATRIX_KEYPRESSES
+#define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_SOLID_COLOR
+#define RGB_MATRIX_DEFAULT_HUE 0
+#define RGB_MATRIX_DEFAULT_SAT 0
+#define RGB_MATRIX_DEFAULT_VAL 128
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_LED_STATE_ENABLE
+#define SPLIT_MODS_ENABLE
+
+#if defined(OLED_ENABLE)
+    #undef OLED_FONT_H
+    #define OLED_FONT_H "keyboards/splitkb/aurora/sofle_v2/keymaps/jhanschoo/glcdfont.c"
+    #define OLED_FONT_WIDTH 8
+    #define OLED_FONT_END 127
+
+    // mitigate OLED burn-in
+    #define OLED_SCROLL_TIMEOUT 2000
+    #define OLED_SCROLL_TIMEOUT_RIGHT
+#endif
+
