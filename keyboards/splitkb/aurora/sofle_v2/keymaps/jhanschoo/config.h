@@ -16,7 +16,21 @@
 
 #pragma once
 
-#define OLED_DISPLAY_128X32
-#define SPLIT_OLED_ENABLE
+// #define QUICK_TAP_TERM 0
+// #define PERMISSIVE_HOLD
 
-#define RGB_MATRIX_LED_COUNT 70
+#define RGB_DISABLE_WHEN_USB_SUSPENDED
+#define RGB_MATRIX_KEYPRESSES
+#define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_SOLID_COLOR
+#define RGB_MATRIX_DEFAULT_HUE 0
+#define RGB_MATRIX_DEFAULT_SAT 0
+#define RGB_MATRIX_DEFAULT_VAL 128
+#define SPLIT_LAYER_STATE_ENABLE
+
+// the following are defined in rules.mk but are copied here for IDE support
+#if !defined(ENCODER_MAP_ENABLE)
+    #define ENCODER_MAP_ENABLE
+#endif
+#if !defined(TAP_DANCE_ENABLE)
+    #define TAP_DANCE_ENABLE
+#endif
